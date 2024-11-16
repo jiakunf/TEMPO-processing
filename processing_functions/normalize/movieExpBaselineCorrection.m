@@ -180,7 +180,7 @@ end
 
 function options = defaultOptions(basepath)
     
-    options.diagnosticdir = basepath + "\diagnostic\expBaselineCorrection\";
+    options.diagnosticdir = fullfile(basepath, 'diagnostic', 'expBaselineCorrection');
     options.outdir = basepath;
 
     options.tmin = 2; %s

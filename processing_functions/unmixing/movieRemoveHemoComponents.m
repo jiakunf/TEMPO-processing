@@ -103,8 +103,8 @@ function options = defaultOptions(basepath)
     options.divide = false;
     
     options.outdir = basepath;
-    options.illustrdir = basepath + '\illustrations';
-    options.diagnosticdir = basepath + '\diagnostic\movieRemoveHemoComponents\';
+    options.illustrdir = fullfile(basepath, 'illustrations');
+    options.diagnosticdir = fullfile(basepath, 'diagnostic', 'movieRemoveHemoComponents');
     options.postfix = "_nohemo";  
 
     options.skip = true;

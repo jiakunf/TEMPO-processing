@@ -119,7 +119,7 @@ function options = defaultOptions(basepath)
     options.n_sd = 5;
     options.dt = 20; %seconds
 
-    options.diagnosticdir = basepath + "\diagnostic\removeOutlierFrames\";
+    options.diagnosticdir = fullfile(basepath, 'diagnostic', 'removeOutlierFrames');
         
     options.outdir = basepath;
     options.skip = true;
