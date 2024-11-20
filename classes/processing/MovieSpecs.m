@@ -97,6 +97,18 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
             history_array = obj.GetHistory();
         end
 
+        %TODO
+        function mouse_id = getMouseId(obj)
+            sourcepath_parts = strsplit(string(obj.sourcePath), '\'); % not a great way, needs to be a class field
+            mouse_id = sourcepath_parts(end-3);
+        end
+
+        function channel_id = getChannelId(obj)
+            [filefolder, filename] = fileparts(obj.sourcePath);
+
+            channel_id = filename(end); % not a great way, needs to be a class field
+        end
+
         function fps = getFps(obj)
             fps = obj.fps/obj.timebinning;
         end
@@ -217,8 +229,6 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
                 ttl_signal = round(mean(reshape(ttl_signal,obj.timebinning,[]),1)');
             end
             ttl_signal = ttl_signal(1:nT);
-
-%             if(isempty(ttl_signal)) ttl_signal = zeros(nT,1); end
         end       
         %%
         
