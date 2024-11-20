@@ -28,8 +28,9 @@ if isfile(timestampPath) && skip
     return;
 end
 
-% options.reader_folderpath=fileparts(mfilename('fullpath'));
-options.reader_folderpath=fullfile(fileparts(fileparts(fileparts(mfilename('fullpath')))),'dct_readtimestamps'); % - 2021-06-14 11:06:26 -   RC
+% TODO
+% what a messed up way to do that
+options.reader_folderpath=fullfile(fileparts(mfilename('fullpath')),'dct_readtimestamps'); % - 2021-06-14 11:06:26 -   RC
 
 if ~exist(options.reader_filename,'file')
     error('Cannot find %s, time stamp reader on the %s path!',options.reader_filename, options.reader_folderpath);
