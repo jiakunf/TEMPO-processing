@@ -188,7 +188,7 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
                                 1:(movie_size(2)));
                 end
             else
-                warning("No mask found");
+                % warning("No mask found");
                 mask = [];
             end
         end
@@ -208,7 +208,15 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
             end
             timestamps_table = obj.extra_specs('timestamps_table');
             ttl_column = find(string(strsplit(obj.extra_specs('timestamps_table_names'), ';')) == "behavior_ttl");
-            ttl_signal = timestamps_table(obj.timeorigin:(obj.timeorigin + nT-1), ttl_column);
+            
+            ttl_signal_raw = timestamps_table(obj.timeorigin:end, ttl_column);
+            
+            ttl_signal = ttl_signal_raw;
+            if(obj.timebinning ~= 1)
+                ttl_signal = ttl_signal(1:(length(ttl_signal) - mod(length(ttl_signal), obj.timebinning)));
+                ttl_signal = round(mean(reshape(ttl_signal,obj.timebinning,[]),1)');
+            end
+            ttl_signal = ttl_signal(1:nT);
 
 %             if(isempty(ttl_signal)) ttl_signal = zeros(nT,1); end
         end       
