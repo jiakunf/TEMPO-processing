@@ -7,7 +7,6 @@ function fullpath_out = ...
     if(~isempty(varargin))
         options = getOptions(options, varargin);
     end
-
     %%
 
     movie_specs = rw.h5readMovieSpecs(fullpath);
@@ -15,8 +14,8 @@ function fullpath_out = ...
     
     paramssummary = ['f0=', num2str(f0), 'wp', num2str(wp)];
     paramssummary_complete = ['highpass', paramssummary, ...
-        'attn=', num2str(options.attn), 'rppl=',num2str(options.rppl), 'fps=', num2str(movie_specs.getFps())];
-
+        'attn=', num2str(options.attn),  'rppl=',num2str(options.rppl), ...
+        'fps=', num2str(movie_specs.getFps())];
     %%
 
     filterpath = fullfile(options.filtersdir, ['/filter_', paramssummary_complete,  '.csv']);  
@@ -61,10 +60,6 @@ function fullpath_out = ...
         saveas(fig_filter, fullfile(options.diagnosticdir, filename_out + '_filter.png'))
     end
     %%
-
-
-    %%
-
 
 end
 
