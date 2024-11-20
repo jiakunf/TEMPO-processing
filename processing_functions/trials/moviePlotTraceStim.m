@@ -1,4 +1,4 @@
-function moviePlotTraceStim(fullpath_movie, regions, varargin)
+function fullpath_out = moviePlotTraceStim(fullpath_movie, regions, varargin)
     
     [basepath, filename, ext, basefilename, channel, postfix] = ...
         filenameParts(fullpath_movie);
@@ -100,29 +100,6 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
         fig_stim.Position(3:4) = [600,600];
         plt.signalTrials(m_stim, window_stim, specs.getFps(), options.align_to)
 
-%         ts = ((0:(size(m_stim,2) - 1)) - ...
-%               sum(window_stim == 0)/2 -...
-%               (options.align_to=="offset")*sum(window_stim == 1) )/specs.getFps();
-%         
-%         fig_stim = plt.getFigureByName("moviePlotTraceStim: traces arranged");
-%                   
-%         subplot(5,1,1)
-%         plot(ts, -mean(m_stim, 1)*100, 'black', 'LineWidth', 1.5);  hold on;
-%         plot(ts, -mean(m_stim, 1)*100+std(m_stim,[], 1)*100, 'black--', 'LineWidth', .5);
-%         plot(ts, -mean(m_stim, 1)*100-std(m_stim,[], 1)*100, 'black--', 'LineWidth', .5); hold off
-%         xlim(minmax(ts));
-%         ylabel("-\Delta F/F_0 (%)") ;
-%         cb = colorbar; cb.Visible = 'off';
-%         
-%         subplot(5,1,2:5);
-%         imagesc(ts, 1:size(m_stim,1), -plt.saturate(m_stim, 0.00025)*100); colormap(plt.redblue)
-%         cb = colorbar; cb.Label.String = "-\Delta F/F_0 (%)"; caxis([-1,1]*max(abs(cb.Limits)));
-%         caxis();
-%         set(gca,'YDir','normal');
-%         
-%         xlabel("Time relative to stimulus "+options.align_to+" (s)")
-%         ylabel("Trial number")
-        
         sgtitle({basepath, filename + " " + region_name}, 'Interpreter', 'none', 'FontSize', 12)
         fig_stim.Position(3:4) = [600,600];
         
