@@ -65,9 +65,10 @@ function filename_out = movieMeanTraceSpectrogram(fullpath, varargin)
     %%
        
     fig = plt.getFigureByName("movieMeanTraceSpectrogram");
-
+    
+    ts_trace = ((0:(length(m)-1)) + (specs.timeorigin-1))'/specs.getFps();
     options_spectrogram = struct('q', [0.05, 0.999], ...
-        'trace', m, 'trace_ts', ((0:(length(m)-1)) + (specs.timeorigin-1))'/specs.getFps(), ...
+        'trace', m, 'trace_ts', ts_trace, ...
         'title', [basepath, basefilename + postfix + ...
             " (dt=" +  num2str(options.timewindow) + ...
             "s, df=" + num2str(options.fw) + "Hz)"]);
@@ -77,7 +78,14 @@ function filename_out = movieMeanTraceSpectrogram(fullpath, varargin)
     end
          
     ts_plot = ts + (specs.timeorigin-1)/specs.getFps(); 
-    plt.signalSpectrogram(st, ts_plot, fs, options_spectrogram);   
+    axes_all = plt.signalSpectrogram(st, ts_plot, fs, options_spectrogram);   
+    %%
+
+    axes(axes_all(2))
+    hold on
+    h_ttl = plot(ts_trace, specs.getTTLTrace(length(m))*2*std(m) );
+    uistack(h_ttl,'bottom')
+    hold off
     %%
 
     saveas(fig, fullfile(options.processingdir, basepath_out + ".png"));
@@ -103,6 +111,7 @@ function options = defaultOptions(basepath)
     options.fw = 0.5;
     options.nframes_read = Inf;
     options.frange = [];
+    % options.flims = [];
     
 %     options.bgmethod = []; % [], 'cvx' or '1overf'
 %     options.timewindow_bg = []; % options.timewindow_bg = 3*options.timewindow;
