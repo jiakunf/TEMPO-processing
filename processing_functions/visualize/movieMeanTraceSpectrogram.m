@@ -109,7 +109,7 @@ function options = defaultOptions(basepath)
     
     options.meanspectra = true;
     
-    options.processingdir = fullfile(basepath, "\processing\meanTraceSpectrogram\");
+    options.processingdir = fullfile(basepath, 'processing', 'meanTraceSpectrogram');
     options.postfix_new = "_sp";
     options.skip = true;
 end

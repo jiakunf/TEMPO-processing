@@ -161,7 +161,7 @@ movieSavePreviewVideos(fullpathRfDFF, 'title', 'R dF/F')
 fullpaths_mean = movieMeanTraces([string(fullpathGnhDFF), string(fullpathRfDFF)], 'space', true, 'f0', f0_hp);
     
 options_spectrogram = struct('timewindow', 4, 'fw', 0.75, ...
-    'processingdir', fullfile(folder_processing, "\processing\meanTraceSpectrogram\"), ...
+    'processingdir', fullfile(folder_processing, 'processing', 'meanTraceSpectrogram'), ...
     'skip', false); %'correct1f', false, 
 movieMeanTraceSpectrogram(fullpaths_mean(1), options_spectrogram);
 movieMeanTraceSpectrogram(fullpaths_mean(2), options_spectrogram);
@@ -189,7 +189,7 @@ if(~strcmp(folder_processing, folder_output))
     fullpaths_mean_new = movieMeanTraces(paths_out_new, 'space', true, 'skip', false, 'f0', f0_hp);
     
     options_spectrogram.processingdir = ...
-        fullfile(folder_output, "\processing\meanTraceSpectrogram\");
+        fullfile(folder_output, 'processing', 'meanTraceSpectrogram');
     movieMeanTraceSpectrogram(fullpaths_mean_new(1), options_spectrogram);
     movieMeanTraceSpectrogram(fullpaths_mean_new(2), options_spectrogram);
 end

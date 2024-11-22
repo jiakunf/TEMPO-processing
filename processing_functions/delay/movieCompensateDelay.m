@@ -121,7 +121,7 @@ end
 
 function options = defaultOptions(basepath)
     
-    options.diagnosticdir = basepath + "\diagnostic\moviesCompensateDelay\";
+    options.diagnosticdir = fullfile(basepath, 'diagnostic', 'moviesCompensateDelay');
     options.outdir = basepath;
     options.skip = true;
 

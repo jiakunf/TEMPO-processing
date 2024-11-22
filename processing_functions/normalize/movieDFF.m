@@ -119,7 +119,7 @@ function options = defaultOptions(fullpath)
     [basepath, ~, ~, ~] = filenameSplit(fullpath, '_');
     options.fullpathM0 = fullpath;
 
-    options.diagnosticdir = basepath + "\diagnostic\movieDFF\";
+    options.diagnosticdir = fullfile(basepath,'diagnostic', 'movieDFF');
     options.outdir = basepath;
     options.skip = true;
 end

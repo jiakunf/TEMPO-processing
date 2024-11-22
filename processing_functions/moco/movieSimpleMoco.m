@@ -178,12 +178,12 @@ end
 function options = defaultOptions(basepath)
     
     options.outdir = basepath;
-    options.illustrdir = basepath + "\illustrations\";
-    options.processingdir = basepath + "\processing\movieFindMocoShifts\";
-    options.diagnosticdir = basepath + "\diagnostic\movieFindMocoShifts\";
+    options.illustrdir = fullfile(basepath, 'illustrations');
+    options.processingdir = fullfile(basepath, 'processing' ,'movieFindMocoShifts');
+    options.diagnosticdir = fullfile(basepath, 'diagnostic', 'movieFindMocoShifts');
     options.bandpass = [0.0500 0.5000]; %mm
-    options.max_shift = [0.5, 0.5]; %mm;
-    options.upsample_factor = 20; %*specs.binning
+    options.max_shift = [0.5, 0.5]; %mm
+    options.upsample_factor = 20; %specs.binning
     options.niteration = 2;
 %     options.timebin = 6;
 
