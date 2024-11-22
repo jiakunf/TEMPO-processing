@@ -54,8 +54,8 @@ function options = defaultOptions(basepath)
     options.edgeq0 = 0.5;
     
     
-    options.processingdir = basepath + "\diagnostic\makeMask\";
-    options.outdir = basepath + "\alignment_images\";
+    options.processingdir = fullfile(basepath, 'diagnostic', 'makeMask');
+    options.outdir = fullfile(basepath, 'alignment_images');
     
     options.ext = ".bmp";
 end

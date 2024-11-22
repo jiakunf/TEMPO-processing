@@ -83,5 +83,5 @@ function options = defaultOptions(basepath)
     
     options.space = false;
     
-    options.processingdir = basepath + "\processing\meanTraces\";
+    options.processingdir = fullfile(basepath, 'processing', 'meanTraces');
 end
