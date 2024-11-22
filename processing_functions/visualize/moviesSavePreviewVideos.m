@@ -107,7 +107,7 @@ end
 
 function options = defaultOptions(basepath)
     
-    options.outdir = basepath + "\illustrations\";
+    options.outdir = fullfile(basepath, 'illustrations');
     options.skip = true;
     
     options.titles = [];
