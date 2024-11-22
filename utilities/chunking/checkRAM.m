@@ -40,9 +40,12 @@ summary.execution_duration=tic;
 
 % systems
 %
-if ispc % Code is on Windows platform
-    [~,systemview] = memory;
-    availableRAM=systemview.PhysicalMemory.Available;
+if ismac % Code is on Mac platform
+    % basically the above one for Linux can be used for Mac as
+    % well, just in case no python package psutil installed
+    [~,out] = system('vm_stat | grep "Pages free"');
+    mem = sscanf(out,'Pages free: %f.');
+    availableRAM = mem*4096;
 elseif isunix % Code is on Linux platform
     try
         availableRAM = double(py.psutil.virtual_memory().available);
@@ -50,12 +53,9 @@ elseif isunix % Code is on Linux platform
         [~,freebytes] = system('python -c "import psutil; print(psutil.virtual_memory().available)"');
         availableRAM = str2double(freebytes);
     end
-elseif ismac % Code is on Mac platform
-    % basically the above one for Linux can be used for Mac as
-    % well, just in case no python package psutil installed
-    [~,out] = system('vm_stat | grep "Pages free"');
-    mem = sscanf(out,'Pages free: %f.');
-    availableRAM = mem*4096;
+elseif ispc % Code is on Windows platform
+        [~,systemview] = memory;
+        availableRAM=systemview.PhysicalMemory.Available;
 else
     disp('Platform not supported')
 end
