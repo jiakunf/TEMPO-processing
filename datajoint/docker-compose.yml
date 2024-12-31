@@ -1,10 +1,18 @@
-name: tempo-preprocessing
-
 services:
   datajoint:
-    image: datajoint/datajoint
+    image: datajoint/datajoint  # only works on amd64
     volumes:
       - /Volumes/jifu/code/dev:/home/dev
+    env_file: .env
+    ports:
+      - 4444:8888
+
+
+  dj-notebook:
+    image: datajoint-jupyter:arm64
+    volumes:
+      - /Volumes/jifu/code/dev/jupyter:/home/jupyter
+    working_dir: /home/jupyter
     env_file: .env
     ports:
       - 4444:8888
