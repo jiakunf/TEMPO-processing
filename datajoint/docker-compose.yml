@@ -1,0 +1,17 @@
+name: tempo-preprocessing
+
+services:
+  datajoint:
+    image: datajoint/datajoint
+    volumes:
+      - /Volumes/jifu/code/dev:/home/dev
+    env_file: .env
+    ports:
+      - 4444:8888
+    entrypoint:
+      - jupyter
+      - lab
+      - --ip=0.0.0.0
+      - --allow-root
+      - --NotebookApp.token=''
+      - --no-browser
