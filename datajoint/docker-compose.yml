@@ -11,7 +11,8 @@ services:
   dj-notebook:
     image: datajoint-jupyter:arm64
     volumes:
-      - /Volumes/jifu/code/dev/jupyter:/home/jupyter
+      - /Volumes/jifu/code/dev/notebooks:/home/jupyter
+      - /Volumes/jifu/code/dev/datajoint-tests:/home/tests
     working_dir: /home/jupyter
     env_file: .env
     ports:
