@@ -47,6 +47,8 @@ metadata=struct;
 % Detect Sampling Rate
 try
     A=fileread(fullfile(lvSettingsFolder,options.LVSettingsFile)); B=strfind(A, 'Internal frame rate (Hz)'); %  'Actual frame rate'); % - 2020-10-28 13:55:11 -   RC
+    if(isempty(B)), error("Cannot detect sampling rate"); end    
+
     substring=A(B(1)+(0:70));
     inds=regexp(substring,'\d');
     strnumber=substring(inds(1):inds(end));
@@ -59,6 +61,7 @@ end
 % Detect Hardware Binning
 try
     A=fileread(fullfile(lvSettingsFolder,options.LVSettingsFile)); B=strfind(A, 'Binning (px)');
+    if(isempty(B)), error("Cannot detect Hardware Binning"); end   
     metadata.hardwareBinning=str2double(A(B+26:B+26));
     fprintf('Hardware Binning: %1.0f \n',metadata.hardwareBinning);
 catch
@@ -69,6 +72,7 @@ end
 try
     strpattern='Depth (um)</Name>';
     A=fileread(fullfile(lvSettingsFolder,options.LVSettingsFile)); B=strfind(A, strpattern);
+    if(isempty(B)), error("Cannot detect depth of imaging"); end   
     metadata.depth=str2double(A(B+length(strpattern)+7:B+length(strpattern)+13));
     fprintf('Depth: %1.0f %sm \n',metadata.depth,char(181));
 catch
