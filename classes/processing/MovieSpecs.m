@@ -218,10 +218,11 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
                 ttl_signal = [];
                 return;
             end
+            
+            timestamps_table = obj.extra_specs('timestamps_table');
 
             if(nargin < 2) nT = size(timestamps_table,1)-(obj.timeorigin-1); end
 
-            timestamps_table = obj.extra_specs('timestamps_table');
             ttl_column = find(string(strsplit(obj.extra_specs('timestamps_table_names'), ';')) == "behavior_ttl");
             
             ttl_signal_raw = timestamps_table(obj.timeorigin:end, ttl_column);
