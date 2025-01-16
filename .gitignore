@@ -22,5 +22,9 @@ analysis/compiled/hdf5_movie_fft/
 analysis/compiled/hdf5_movie_convolution/
 private/twophot/batchMoco1p.txt
 
+# IDE stuff
+*.idea/
+.env
+*json
 
-
+*.DS_Store

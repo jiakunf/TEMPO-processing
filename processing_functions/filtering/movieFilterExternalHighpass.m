@@ -76,8 +76,8 @@ function options = defaultOptions(basepath)
         
     options.filtersdir = basepath ;%;
     
-    options.illustrdir = basepath + "\illustrations\";
-    options.diagnosticdir = basepath + "\diagnostic\filterExternalHighpass\";
+    options.illustrdir = fullfile(basepath, 'illustrations');
+    options.diagnosticdir = fullfile(basepath, 'diagnostic', 'filterExternalHighpass');
     options.outdir = basepath;
     
     options.skip = true;

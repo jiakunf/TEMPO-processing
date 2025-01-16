@@ -99,7 +99,7 @@ end
 
 function options = defaultOptions(basepath)
  
-    options.processingdir = basepath + "\diagnostic\decrosstalk\";
+    options.processingdir = fullfile(basepath, 'diagnostic', 'decrosstalk');
     options.outdir = basepath;
     options.skip = true;
     options.framedelay = 0;

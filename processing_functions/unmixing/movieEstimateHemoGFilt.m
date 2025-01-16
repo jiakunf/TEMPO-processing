@@ -157,8 +157,8 @@ function options = defaultOptions(basepath)
     options.overlap = 0.75; %(rel) time windows overlap 
     
     options.outdir = basepath;
-    options.diagnosticdir = basepath + "\diagnostic\hemoFilt\";
-    options.illustrdir = basepath + "\illustrations\";
+    options.diagnosticdir = fullfile(basepath, 'diagnostic', 'hemoFilt');
+    options.illustrdir = fullfile(basepath, 'illustrations');
     
     options.eps = 1e-8; % regularizer weight
 
