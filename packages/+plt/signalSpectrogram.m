@@ -1,4 +1,4 @@
-function signalSpectrogram(st, ts, fs, varargin)
+function axes_all = signalSpectrogram(st, ts, fs, varargin)
 
     options = defaultOptions();
     if(~isempty(varargin))
@@ -32,20 +32,25 @@ function signalSpectrogram(st, ts, fs, varargin)
     
     ax_spectrogram = options.ax_spectrogram; ax_trace = []; ax_spectra = [];
     
+    nv = 4; nh = 6;
+    sp_num = reshape((1:nv*nh), nh, nv)';
     if(isempty(options.trace) && isempty(options.spectra) && isempty(ax_spectrogram))
         ax_spectrogram = subplot(1,1,1);
     elseif(~isempty(options.trace) && isempty(options.spectra) && isempty(ax_trace))
-        ax_spectrogram = subplot(4,4,[1:4,(1:4) + 4, (1:4) + 4*2 ]); 
-        ax_trace = subplot(4,4,[(1:4) + 4*3 ]);   
+        ax_spectrogram = subplot(nv, nh, reshape(sp_num(1:(end-1), 1:end), 1, []) ); 
+        ax_trace = subplot(nv, nh, reshape(sp_num(end, 1:end), 1, []) );   
     elseif(isempty(options.trace) && ~isempty(options.spectra) && isempty(ax_spectra))
-        ax_spectrogram = subplot(4,4,[2:4,(2:4) + 4, (2:4) + 4*2, (2:4) + 4*3]);  
-        ax_spectra = subplot(4,4,[1,1 + 4, 1 + 4*2, 1 + 4*3]);          
+        ax_spectrogram = subplot(nv, nh, reshape(sp_num(:, 2:end), 1, []) ); 
+        ax_spectra = subplot(nv, nh, reshape(sp_num(:, 1), 1, []) );          
     elseif(~isempty(options.trace) && ~isempty(options.spectra) && isempty(ax_trace) && isempty(ax_spectra))
-        ax_spectrogram = subplot(4,4,[2:4,(2:4) + 4, (2:4) + 4*2 ]);
-        ax_trace = subplot(4,4,[(2:4) + 4*3 ]);
-        ax_spectra = subplot(4,4,[1,1 + 4, 1 + 4*2]);
+        ax_spectrogram = subplot(nv, nh, reshape(sp_num(1:(end-1), 2:end), 1, []) );
+        ax_trace = subplot(nv, nh, reshape(sp_num(end, 2:end), 1, []));
+        ax_spectra = subplot(nv, nh, reshape(sp_num(1:(end-1), 1), 1, []));
     end
+
+    axes_all = [ax_spectrogram, ax_trace, ax_spectra];
     %%
+
     axes(ax_spectrogram)
     
     im = imagesc(ts, fs, st); 

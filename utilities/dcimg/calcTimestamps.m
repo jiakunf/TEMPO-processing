@@ -37,12 +37,17 @@ summary.inputOptions=options;
 %% Core
 disps('Calculating time stamps');
 
+if(sum(timestamps < 0) > 1) 
+    warning("calcTimestamps: too many timestamps < 0")
+end
+timestapms_use = (timestamps >= 0);
+
 summary.medianFps=[]; % init field
 summary.nDroppedFrames=[]; % init field
 summary.timestamps=timestamps;
 summary.interval=diff(timestamps);
 summary.fpsVec= 1./summary.interval;
-summary.medianFps=median(summary.fpsVec);
+summary.medianFps=median(summary.fpsVec(timestapms_use(1:(end-1))));
 fps=summary.medianFps;
 summary.jitter=std(summary.interval);
 summary.medianInterval=median(summary.interval);

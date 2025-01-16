@@ -1,4 +1,4 @@
-function moviePlotTraceStim(fullpath_movie, regions, varargin)
+function fullpath_out = moviePlotTraceStim(fullpath_movie, regions, varargin)
     
     [basepath, filename, ext, basefilename, channel, postfix] = ...
         filenameParts(fullpath_movie);
@@ -52,7 +52,11 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
         end
         
         %%        
-        fullpath_out = fullfile(options.processingdir, filename+"_"+string(region_name)+"_stim"+"_"+options.align_to+".h5");
+
+        basefilename_out = filename+"_"+string(region_name)+...
+            options.postfix_new+"_"+options.align_to;
+
+        fullpath_out = fullfile(options.processingdir, basefilename_out+".h5");
         if(isfile(fullpath_out))
             if(options.skip)
                 disp("moviePlotTraceStim: output file exists. Skipping: " + fullpath_out)
@@ -65,10 +69,14 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
 
         %%
 
-        saveas(fig_roi, fullfile(options.processingdir, filename+"_"+region_name+"_roi.fig"))
-        saveas(fig_roi, fullfile(options.processingdir, filename+"_"+region_name+"_roi.png"))
-    
-        ttl_signal = specs.getTTLTrace(size(M,3));
+        if(region_name ~= "mean")
+            saveas(fig_roi, fullfile(options.processingdir, basefilename_out+"_roi.fig"))
+            saveas(fig_roi, fullfile(options.processingdir, basefilename_out+"_roi.png"))
+        end
+        
+        if(isempty(options.ttl_signal))
+            options.ttl_signal = specs.getTTLTrace(size(M,3));
+        end
         %%
         %%
         % fig_traces = plt.getFigureByName("moviePlotTraceStim: traces"); clf;
@@ -86,8 +94,8 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
     
         disp("moviePlotTraceStim: getting single-trial traces")
     
-        [m_stim,window_stim, intervals_stim] = signalTrials(m_reg, ttl_signal, ...
-            'drop', 2, 'iti_scale', options.iti_scale, 'align_to_end', options.align_to=="offset");
+        [m_stim,window_stim, intervals_stim] = signalTrials(m_reg, options.ttl_signal, ...
+            'drop', options.drop, 'iti_scale', options.iti_scale, 'align_to_end', options.align_to=="offset");
         %%
         
         rw.h5saveMovie(fullpath_out, m_stim, specs);
@@ -100,9 +108,12 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
         fig_stim.Position(3:4) = [600,600];
         plt.signalTrials(m_stim, window_stim, specs.getFps(), options.align_to)
 
-%         ts = ((0:(size(m_stim,2) - 1)) - ...
-%               sum(window_stim == 0)/2 -...
-%               (options.align_to=="offset")*sum(window_stim == 1) )/specs.getFps();
+<<<<<<< Updated upstream
+        sgtitle({basepath, filename + " " + region_name}, 'Interpreter', 'none', 'FontSize', 12)
+=======
+        ts = ((0:(size(m_stim,2) - 1)) - ...
+              sum(window_stim == 0)/2 -...
+              (options.align_to=="offset")*sum(window_stim == 1) )/specs.getFps();
 %         
 %         fig_stim = plt.getFigureByName("moviePlotTraceStim: traces arranged");
 %                   
@@ -123,11 +134,12 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
 %         xlabel("Time relative to stimulus "+options.align_to+" (s)")
 %         ylabel("Trial number")
         
-        sgtitle({basepath, filename + " " + region_name}, 'Interpreter', 'none', 'FontSize', 12)
+        sgtitle({basepath, filename + " " + region_name+options.postfix_new}, 'Interpreter', 'none', 'FontSize', 12)
+>>>>>>> Stashed changes
         fig_stim.Position(3:4) = [600,600];
         
-        saveas(fig_stim, fullfile(options.processingdir, filename+"_"+region_name+"_stim"+"_"+options.align_to+".fig"))
-        saveas(fig_stim, fullfile(options.processingdir, filename+"_"+region_name+"_stim"+"_"+options.align_to+".png"))
+        saveas(fig_stim, fullfile(options.processingdir, basefilename_out+".fig"))
+        saveas(fig_stim, fullfile(options.processingdir, basefilename_out+".png"))
         %%
 
         tb = 120;
@@ -136,6 +148,7 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
         wt1(coi' > frq1) = NaN;
         tscale = 1;
         
+
 %         noise_trace = randn(size(M,3),1);
 %         A_noise = noiseAmplitudeDFF(specs);  
 %         noise_sd = mean(A_noise(mask_reg), 'omitnan')/sqrt(sum(mask_reg(:), 'omitnan'));
@@ -146,17 +159,63 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
 %         wt_noise_limit = median(wt_noise(:), 'omitnan');
 %         
         % nw = 64;
-        % [wt1,frq1] = spectrogram(m0_reg,hamming(nw).^2,round(7/8*nw));
+        % [wt1,frq1] = spectrogram(m_reg,hamming(nw).^2,round(7/8*nw));
         % frq1 = frq1/pi/2;
         % wt1 = abs(wt1);
         % 
-        % tscale = size(wt1,2)/length(m1_reg);
+        % tscale = size(wt1,2)/length(m_reg);
         
+        % wt1= flip(wt1,1);
+
+        fs = frq1*specs.getFps();
+        wt1(fs < specs.getFrequencyRange(1), :) = NaN;
+        wt1(fs > specs.getFrequencyRange(2), :) = NaN;
         %%
-        
-        [wt_trial, window_stim1] = signalTrials(wt1, ....
-            interp1(1:length(ttl_signal), single(ttl_signal), (1:size(wt1,2))/tscale)', ...
-            'drop', 3, 'iti_scale', options.iti_scale/2, ...
+
+        % plt.getFigureByName("Full spectrogram")
+        % 
+        % ax1 = subplot(5,1,1:4)
+        % hpc = pcolor(ts, fs,  plt.saturate(wt1, [0.05, 0.999])); 
+        % set(hpc, 'EdgeColor', 'none');
+        % set(ax1,'XTickLabel',[]);
+        % xlim(minmax(ts))
+        % 
+        % % ts = (1:size(wt1, 2))/specs.getFps();
+        % ax2 = subplot(5,1,5)
+        % plot(ts, m_reg)
+        % hold on;
+        % plot(ts, options.ttl_signal*2*std(m_reg))
+        % hold off;
+        % xlim(minmax(ts))
+        % % grid on
+        % 
+        % pos1 = get(ax1, 'Position');
+        % pos2 = get(ax2, 'Position');        %%
+        % 
+        % inset1 = get(ax1, 'TightInset');
+        % set(ax1, 'Position', [inset1(1)+0.005, pos1(2), 1-inset1(1)-inset1(3)-0.01, pos1(4)])
+        % % set(ax1, 'Position', [InSet(1), pos(2), 1-InSet(1)-InSet(3), 1-InSet(2)-InSet(4)])
+        % 
+        % 
+        % inset2 = get(ax1, 'TightInset');
+        % set(ax2, 'Position', [inset2(1)+0.005, pos2(2), 1-inset2(1)-inset2(3)-0.01, pos1(2)-pos2(2)])
+        % % set(ax2, 'Position', [inset2(1), pos(2), 1-inset2(1)-inset2(3), pos(4)])
+        % 
+        % linkaxes([ax1,ax2], 'x')
+        % % ax3 = subplot(3,1,3)
+        % % plot(ts, options.ttl_signal)
+        % % linkaxes([ax1,ax2, ax3], 'x')
+
+        %%
+
+        [ttl_trial, window_stim1, intervals_stim] = signalTrials(options.ttl_signal, ....
+            interp1(1:length(options.ttl_signal), single(options.ttl_signal), (1:size(wt1,2))/tscale)', ...
+            'drop', options.drop, 'iti_scale', options.iti_scale, ...
+            'align_to_end', options.align_to=="offset");
+
+        [wt_trial, window_stim1, intervals_stim] = signalTrials(wt1, ....
+            interp1(1:length(options.ttl_signal), single(options.ttl_signal), (1:size(wt1,2))/tscale)', ...
+            'drop', options.drop, 'iti_scale', options.iti_scale, ...
             'align_to_end', options.align_to=="offset");
         
         window_stim1((max(find(window_stim1 == 1))+1):end) = 2;
@@ -165,10 +224,9 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
         stim_offset_frame = max(find(window_stim1 == 1)+1); 
         %%
         
-        f_start = 1.5;
+        f_start = 0; %1.5;
         nframes_average = round(0.5*specs.getFps());
         
-        fs = frq1*specs.getFps();
         
         fig_spect = plt.getFigureByName('moviePlotTraceStim: spectras');
         
@@ -185,15 +243,15 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
                 "post offset"+" ("+string(round(nframes_average/specs.getFps(),1)) + "s)"]);
         xlabel("Frequency (Hz)");
         ylabel("Wavelet amplitude (arb.u.)")
-        title({basepath, filename + " " + region_name}, 'Interpreter', 'none', 'FontSize', 12)
+        title({basepath, filename + " " + region_name+options.postfix_new}, 'Interpreter', 'none', 'FontSize', 12)
         
-        saveas(fig_spect, fullfile(options.processingdir, filename+"_"+region_name+"_trialspectra"+"_"+options.align_to+".fig"))
-        saveas(fig_spect, fullfile(options.processingdir, filename+"_"+region_name+"_trialspectra"+"_"+options.align_to+".png"))
+        saveas(fig_spect, fullfile(options.processingdir, basefilename_out+"_trialspectra"+".fig"))
+        saveas(fig_spect, fullfile(options.processingdir, basefilename_out+"_trialspectra"+".png"))
         %%
         
         
         wt = squeeze(mean(wt_trial, 1, 'omitnan'));% - wt_noise_limit;
-        wt_plot = (wt-quantile(wt',0.01)')./quantile(wt',.05)';
+        wt_plot = (wt-quantile(wt',0.01)')./quantile(wt',.1)';
         
         ts1 = ((0:(size(wt_plot,2)-1)) -...
                sum(window_stim1==0)-...
@@ -203,7 +261,7 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
         
         
 %         cs = [0,500];%
-        cs = quantile( wt_plot(:)*100, [0.01,0.99], 'all');%
+        cs = quantile( wt_plot(:)*100, [0.01,0.95], 'all');%
         hpc = pcolor(ts1, frq1*specs.getFps(),  wt_plot*100); 
         set(hpc, 'EdgeColor', 'none');
         ax_spec = gca();
@@ -221,16 +279,16 @@ function moviePlotTraceStim(fullpath_movie, regions, varargin)
         ylabel('Frequency (Hz)', 'FontSize', 15)
         % xticks(-2:0.25:2); xlim([-1.25,1.25]);
         colormap('jet')
-%         set(gca, 'ColorScale', 'Log')
+        % set(gca, 'ColorScale', 'Log')
         
-        title({basepath, filename + " " + region_name}, 'Interpreter', 'none', 'FontSize', 12)
+        title({basepath, filename + " " + region_name+options.postfix_new}, 'Interpreter', 'none', 'FontSize', 12)
         fig_spec.Position = [fig_spec.Position(1:2), 500,400];
         ax_spec.OuterPosition = [0,0,0.98,1];
         
-        saveas(fig_spec, fullfile(options.processingdir, filename+"_"+region_name+"_spectrogram"+"_"+options.align_to+".fig"))
-        saveas(fig_spec, fullfile(options.processingdir, filename+"_"+region_name+"_spectrogram"+"_"+options.align_to+".png"))
+        saveas(fig_spec, fullfile(options.processingdir, basefilename_out+"_spectrogram"+".fig"))
+        saveas(fig_spec, fullfile(options.processingdir, basefilename_out+"_spectrogram"+".png"))
         % saveas(fig_spec, fullfile(outdir, filename0+"_"+region_name+"_spectrogram"+"_"+align_to+".eps"), 'epsc')
-        saveas(fig_spec, fullfile(options.processingdir, filename+"_"+region_name+"_spectrogram"+"_"+options.align_to), 'epsc')
+        % saveas(fig_spec, fullfile(options.processingdir, filename+"_"+region_name+"_spectrogram"+"_"+options.align_to), 'epsc')
         %%
     end
 end
@@ -242,9 +300,12 @@ function options = defaultOptions(basepath)
     options.regions_map = ...
         containers.Map(["M1", "SSp-bfd", "SSp-ll", "V1", "RSP"], [4,10, 12,38,51]);
 
+    options.postfix_new = "";
     options.skip = true;
-    options.iti_scale = 1;
+    options.ttl_signal = [];
+    options.iti_scale = 4;
+    options.drop = 1;
     options.processingdir = basepath + "\processing\plotTraceStim\";
-
+    
 end
 %%

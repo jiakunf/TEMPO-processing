@@ -97,6 +97,18 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
             history_array = obj.GetHistory();
         end
 
+        %TODO
+        function mouse_id = getMouseId(obj)
+            sourcepath_parts = strsplit(string(obj.sourcePath), '\'); % not a great way, needs to be a class field
+            mouse_id = sourcepath_parts(end-3);
+        end
+
+        function channel_id = getChannelId(obj)
+            [filefolder, filename] = fileparts(obj.sourcePath);
+
+            channel_id = filename(end); % not a great way, needs to be a class field
+        end
+
         function fps = getFps(obj)
             fps = obj.fps/obj.timebinning;
         end
@@ -188,7 +200,7 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
                                 1:(movie_size(2)));
                 end
             else
-                warning("No mask found");
+                % warning("No mask found");
                 mask = [];
             end
         end
@@ -206,11 +218,21 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
                 ttl_signal = [];
                 return;
             end
+            
             timestamps_table = obj.extra_specs('timestamps_table');
-            ttl_column = find(string(strsplit(obj.extra_specs('timestamps_table_names'), ';')) == "behavior_ttl");
-            ttl_signal = timestamps_table(obj.timeorigin:(obj.timeorigin + nT-1), ttl_column);
 
-%             if(isempty(ttl_signal)) ttl_signal = zeros(nT,1); end
+            if(nargin < 2) nT = size(timestamps_table,1)-(obj.timeorigin-1); end
+
+            ttl_column = find(string(strsplit(obj.extra_specs('timestamps_table_names'), ';')) == "behavior_ttl");
+            
+            ttl_signal_raw = timestamps_table(obj.timeorigin:end, ttl_column);
+            
+            ttl_signal = ttl_signal_raw;
+            if(obj.timebinning ~= 1)
+                ttl_signal = ttl_signal(1:(length(ttl_signal) - mod(length(ttl_signal), obj.timebinning)));
+                ttl_signal = round(mean(reshape(ttl_signal,obj.timebinning,[]),1)');
+            end
+            ttl_signal = ttl_signal(1:nT);
         end       
         %%
         
