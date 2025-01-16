@@ -105,9 +105,7 @@ end
 attn = 1e5;  rppl = 1e-2; 
 
 options_highpass = struct( 'attn', attn, 'rppl', rppl,  'skip', true, ...
-    'filtersdir', "P:\GEVI_Wave\ConvolutionFilters\", ...
-    'exepath', "C:\Users\Vasily\repos\Voltage\VoltageImagingAnalysis\analysis\c_codes\compiled\hdf5_movie_convolution.exe",...
-    'num_cores', 22);   
+    'filtersdir', "P:\GEVI_Wave\ConvolutionFilters\");   
 
 fullpathGhp = movieFilterExternalHighpass(fullpathGbl, f0_hp, wp, options_highpass);
 movieSavePreviewVideos(fullpathGhp, 'title', 'filtered')
