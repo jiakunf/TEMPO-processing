@@ -80,12 +80,13 @@ function filename_out = movieMeanTraceSpectrogram(fullpath, varargin)
     ts_plot = ts + (specs.timeorigin-1)/specs.getFps(); 
     axes_all = plt.signalSpectrogram(st, ts_plot, fs, options_spectrogram);   
     %%
-
-    axes(axes_all(2))
-    hold on
-    h_ttl = plot(ts_trace, specs.getTTLTrace(length(m))*2*std(m) );
-    uistack(h_ttl,'bottom')
-    hold off
+    if(~isempty(specs.getTTLTrace()))
+        axes(axes_all(2))
+        hold on
+        h_ttl = plot(ts_trace, specs.getTTLTrace(length(m))*2*std(m) );
+        uistack(h_ttl,'bottom')
+        hold off
+    end
     %%
 
     saveas(fig, fullfile(options.processingdir, basepath_out + ".png"));
