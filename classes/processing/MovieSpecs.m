@@ -203,6 +203,7 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
                 % warning("No mask found");
                 mask = [];
             end
+            mask = logical(mask);
         end
         
         function mask_nan = getMaskNaN(obj, movie_size)
@@ -210,7 +211,7 @@ classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
             
             mask = obj.getMask(movie_size);
             mask_nan = nan(size(mask));
-            mask_nan(logical(mask)) = 1;
+            mask_nan(mask) = 1;
         end
         
         function ttl_signal = getTTLTrace(obj, nT)
