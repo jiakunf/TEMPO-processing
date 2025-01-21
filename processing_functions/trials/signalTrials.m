@@ -7,11 +7,11 @@ function [X_trials, window_stim, intervals_stim] = signalTrials(X, ttl, varargin
     end
     %%
     %signalTrials
-    ttl = logical(ttl);
-    
     if(~all(unique(ttl) == [0,1]'))
         error(": ttl_signal should be possible to binarize");
     end
+    
+    ttl = logical(ttl);
     
     array1d = false;
     if(ndims(X)==2 && size(X,2)==1) array1d = true; end
@@ -58,7 +58,7 @@ function [X_trials, window_stim, intervals_stim] = signalTrials(X, ttl, varargin
             continue;
         end       
 
-        X_trials(i_s-options.drop,:,:) = X(:,f_start:f_end);
+        X_trials(i_s,:,:) = X(:,f_start:f_end); %X_trials(i_s-options.drop,:,:) 
     end 
     %%
 
