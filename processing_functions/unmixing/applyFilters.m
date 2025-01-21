@@ -5,7 +5,7 @@ function Mg_hemo = applyFilters(Mr, Wxy)
 
     % to support a single filter for the whole movie
     if(isvector(Wxy))
-        Wxy =  reshape(repelem(Wxy, nx*ny),  [size(Mr,[1,2]), []]);
+        Wxy =  reshape(repelem(Wxy, nx*ny),  size(Mr,1),  size(Mr,2), []);
     end
            
     % parfor works faster without nested loops...
