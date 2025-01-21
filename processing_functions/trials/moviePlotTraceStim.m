@@ -108,34 +108,7 @@ function fullpath_out = moviePlotTraceStim(fullpath_movie, regions, varargin)
         fig_stim.Position(3:4) = [600,600];
         plt.signalTrials(m_stim, window_stim, specs.getFps(), options.align_to)
 
-<<<<<<< Updated upstream
         sgtitle({basepath, filename + " " + region_name}, 'Interpreter', 'none', 'FontSize', 12)
-=======
-        ts = ((0:(size(m_stim,2) - 1)) - ...
-              sum(window_stim == 0)/2 -...
-              (options.align_to=="offset")*sum(window_stim == 1) )/specs.getFps();
-%         
-%         fig_stim = plt.getFigureByName("moviePlotTraceStim: traces arranged");
-%                   
-%         subplot(5,1,1)
-%         plot(ts, -mean(m_stim, 1)*100, 'black', 'LineWidth', 1.5);  hold on;
-%         plot(ts, -mean(m_stim, 1)*100+std(m_stim,[], 1)*100, 'black--', 'LineWidth', .5);
-%         plot(ts, -mean(m_stim, 1)*100-std(m_stim,[], 1)*100, 'black--', 'LineWidth', .5); hold off
-%         xlim(minmax(ts));
-%         ylabel("-\Delta F/F_0 (%)") ;
-%         cb = colorbar; cb.Visible = 'off';
-%         
-%         subplot(5,1,2:5);
-%         imagesc(ts, 1:size(m_stim,1), -plt.saturate(m_stim, 0.00025)*100); colormap(plt.redblue)
-%         cb = colorbar; cb.Label.String = "-\Delta F/F_0 (%)"; caxis([-1,1]*max(abs(cb.Limits)));
-%         caxis();
-%         set(gca,'YDir','normal');
-%         
-%         xlabel("Time relative to stimulus "+options.align_to+" (s)")
-%         ylabel("Trial number")
-        
-        sgtitle({basepath, filename + " " + region_name+options.postfix_new}, 'Interpreter', 'none', 'FontSize', 12)
->>>>>>> Stashed changes
         fig_stim.Position(3:4) = [600,600];
         
         saveas(fig_stim, fullfile(options.processingdir, basefilename_out+".fig"))
@@ -225,7 +198,7 @@ function fullpath_out = moviePlotTraceStim(fullpath_movie, regions, varargin)
         %%
         
         f_start = 0; %1.5;
-        nframes_average = round(0.5*specs.getFps());
+        nframes_average = sum(window_stim1 == 1);%round(0.3*specs.getFps());
         
         
         fig_spect = plt.getFigureByName('moviePlotTraceStim: spectras');
