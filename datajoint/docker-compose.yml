@@ -13,6 +13,8 @@ services:
     volumes:
       - /Volumes/jifu/code/dev/notebooks:/home/jupyter
       - /Volumes/jifu/code/dev/datajoint-tests:/home/tests
+      - /Volumes/voltage:/voltage
+      - /Volumes/
     working_dir: /home/jupyter
     env_file: .env
     ports:
@@ -24,3 +26,6 @@ services:
       - --allow-root
       - --NotebookApp.token=''
       - --no-browser
+    command: bash -c "
+      git clone https://github.com/lens-biophotonics/dcimg.git
+      && pip3 install dcimg/ --no-dependencies \"
