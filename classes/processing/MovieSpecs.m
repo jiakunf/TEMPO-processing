@@ -1,4 +1,4 @@
-classdef MovieSpecs < SimpleHandle & matlab.mixin.Copyable
+classdef MovieSpecs < handle & matlab.mixin.Copyable
     %MovieSpecs stores .h5 movie file universal content (besides the movie)
     % and provides simple operations for history manipulations
     %
