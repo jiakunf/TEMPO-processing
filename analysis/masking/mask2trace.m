@@ -50,7 +50,6 @@ timeTrace=mean(movie2D(indPositive,:),1, 'omitnan');
 if options.plot
     plot(timeTrace)
     xlabel('Frames (#)')
-    formatPlot
 end 
 
 
