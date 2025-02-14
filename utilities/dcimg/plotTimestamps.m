@@ -37,7 +37,7 @@ plot(summaryStructure.fpsVec)
 xlabel('Frame (#)')
 ylabel('Frame rate (fps)')
 
-t=suptitle(sprintf('%i frames dropped', summaryStructure.nDroppedFrames));
+t=sgtitle(sprintf('%i frames dropped', summaryStructure.nDroppedFrames));
 
 t.FontSize=10;
 t.FontName='Arial';

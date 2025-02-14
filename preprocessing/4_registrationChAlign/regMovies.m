@@ -162,7 +162,7 @@ if options.plot
     % multiple plots are not great and causing clutter. Better get one good
     % figure in the end summarizing them all. RC
     plotting(fixed_frame,moving_frame)
-    suptitle('Fixed and moving frame before processing')
+    sgtitle('Fixed and moving frame before processing')
     drawnow
 end
 
@@ -178,7 +178,7 @@ summary.sim_metrics_before_bandpassed = evalRegQualityMetrics(fixed_frame, movin
 if options.plot
     figure(2);
     plotting(fixed_frame,moving_frame)
-    suptitle('Fixed and moving frame after bandpassing')
+    sgtitle('Fixed and moving frame after bandpassing')
     drawnow
 end
 
