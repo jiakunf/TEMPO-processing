@@ -1,4 +1,4 @@
-function fullpath_out = movieFilterExternalBandpass(fullpath, f0, wp, varargin)
+function fullpath_out = movieFilterBandpass(fullpath, f0, wp, varargin)
 
     [basepath, basefilename, ext, postfix] = filenameSplit(fullpath, '_');
     
@@ -37,11 +37,12 @@ function fullpath_out = movieFilterExternalBandpass(fullpath, f0, wp, varargin)
             'remove_mean', true, 'shape', 'valid',...
             'postfix_new', "_bp"+paramssummary+"v", 'skip', options.skip);
 
-    [fullpath_out,existed] = ...
-         movieConvolutionPerPixelExt(fullpath, filterpath, options_conv);
+%     3-4x faster, but requires a compiled executable
+%     [fullpath_out,existed] = ...
+%          movieConvolutionPerPixelExt(fullpath, filterpath, options_conv);
 
-    % [fullpath_out,existed] = ...
-    %     movieConvolutionPerPixel(fullpath, filterpath, options_conv);
+    [fullpath_out,existed] = ...
+        movieConvolutionPerPixel(fullpath, filterpath, options_conv);
     %%
     
     if(~existed)

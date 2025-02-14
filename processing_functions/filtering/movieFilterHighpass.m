@@ -1,5 +1,5 @@
 function fullpath_out = ...
-    movieFilterExternalHighpass(fullpath, f0, wp, varargin)
+    movieFilterHighpass(fullpath, f0, wp, varargin)
 
     [basepath, basefilename, ext, postfix] = filenameSplit(fullpath, '_');
     
