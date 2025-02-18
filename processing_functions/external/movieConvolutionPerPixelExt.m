@@ -1,6 +1,6 @@
 
 function [fullpath_out, existed]=movieConvolutionPerPixelExt(fullpath_movie,...
-    fullpath_filter, varargin)
+    fullpath_filter, exepath, varargin)
 %% 
 
     [basepath, filename, ext, basefilename, channel, postfix] = ...
@@ -39,7 +39,7 @@ function [fullpath_out, existed]=movieConvolutionPerPixelExt(fullpath_movie,...
         ConvolutionPerPixelExt(...
             char(fullpath_movie), char(fullpath_filter), char(fullpath_out), ...
             'delete', true, 'num_cores', options.num_cores, ...
-            'exepath', char(options.exepath), 'remove_mean', true);
+            'exepath', char(exepath), 'remove_mean', true);
     %%
 
     specs = rw.h5readMovieSpecs(fullpath_movie);
@@ -91,8 +91,7 @@ function options =  defaultOptions(basepath)
     options.remove_mean = false;
     options.shape = 'same'; %'same' or 'valid'
 
-    options.num_cores = floor(feature('numcores') - 2);
-    options.exepath = 'C:\Users\Vasily\repos\Voltage\TEMPO-processing\analysis\c_codes\compiled\hdf5_movie_convolution.exe';
+    options.num_cores = floor(feature('numcores')/2);
 
     options.outdir = basepath;
     options.postfix_new = "_conv";

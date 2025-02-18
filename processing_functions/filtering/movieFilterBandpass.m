@@ -20,6 +20,8 @@ function fullpath_out = movieFilterBandpass(fullpath, f0, wp, varargin)
     filterpath = fullfile(options.filtersdir, ['/filter_', paramssummary_complete,  '.csv']);
     %%
 
+    disp("movieFilterBandpass: computing time-domain filter")
+
     if( ~isfile(filterpath) ) 
         makeFilterBandpass(filterpath, f0, wp, 'wr', options.wr, 'fps', movie_specs.getFps(), ...
             'attn_r', options.attn, 'attn_l', options.attn*10, 'rppl', options.rppl); 
@@ -33,16 +35,20 @@ function fullpath_out = movieFilterBandpass(fullpath, f0, wp, varargin)
     drawnow();
     %%
     
+    disp("movieFilterBandpass: convolving with the filter")
+
     options_conv = struct('diagnosticdir', options.diagnosticdir, ...
             'remove_mean', true, 'shape', 'valid',...
             'postfix_new', "_bp"+paramssummary+"v", 'skip', options.skip);
 
-%     3-4x faster, but requires a compiled executable
-%     [fullpath_out,existed] = ...
-%          movieConvolutionPerPixelExt(fullpath, filterpath, options_conv);
-
-    [fullpath_out,existed] = ...
-        movieConvolutionPerPixel(fullpath, filterpath, options_conv);
+    if(isempty(options.exepath))
+        [fullpath_out,existed] = ...
+            movieConvolutionPerPixel(fullpath, filterpath, options_conv);
+    else
+        % 3-4x faster, but requires a compiled executable
+        [fullpath_out,existed] = ...
+            movieConvolutionPerPixelExt(fullpath, filterpath, options.exepath, options_conv);
+    end
     %%
     
     if(~existed)
@@ -69,14 +75,11 @@ function options = defaultOptions(basepath, wp)
     options.attn = 1e5; % min attenuation outside pass-band
     options.rppl = 1e-2; % max ripple in the pass-band
     
-    options.remove_mean = true;
+    options.exepath = []; % to perform convolution with external compiled routine
     
-    options.exepath = '../../../analysis/c_codes/compiled/hdf5_movie_convolution.exe';
-    options.num_cores = floor(feature('numcores')/4);
+    options.filtersdir = basepath ;%;
     
-    options.filtersdir = basepath;
-    
-    options.diagnosticdir = basepath + "\diagnostic\filterExternalBandpass\";
+    options.diagnosticdir = fullfile(basepath, 'diagnostic', 'filterExternalHighpass');
     options.outdir = basepath;
     
     options.skip = true;
