@@ -1,6 +1,7 @@
 function outlines(countors, x_lim, y_lim, varargin)
+    
     if(nargin < 2 || isempty(x_lim)) x_lim = [-Inf,Inf]; end
-    if(nargin < 3 || isempty(y_lim)) y_lim = [-Inf,Inf]; end     
+    if(nargin < 3 || isempty(y_lim)) y_lim = [-Inf,Inf]; end 
 
     tf = ishold();
     

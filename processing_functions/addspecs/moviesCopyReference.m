@@ -94,7 +94,7 @@ function moviesCopyReference(fullpath_movie, fullpath_movie_ref, varargin)
     
     disp("moviesCopyReference: registering mask")
 
-    mask_moving = imwarp(specs1.getMask(), Reg.transformation.invert,...
+    mask_moving = imwarp(int32(specs1.getMask()), Reg.transformation.invert,...
         'OutputView', imref2d(size(frame_moving)), ...
         'SmoothEdges', true, 'FillValues', NaN, 'interp', 'linear');
     mask_moving(1,:) = 0;
@@ -134,7 +134,7 @@ function moviesCopyReference(fullpath_movie, fullpath_movie_ref, varargin)
 
     subplot(1,2,1)
     imshow(F1, []); hold on;
-    plt.outlines(specs1.getAllenOutlines(),...
+    plt.outlines(specs1.getAllenOutlines(), [], [],...
         '--', 'color', [0,1,0], 'LineWidth', 0.5); 
     hold off
     
@@ -142,7 +142,7 @@ function moviesCopyReference(fullpath_movie, fullpath_movie_ref, varargin)
     imshow(F2, []); hold on;
     % plt.outlines(edgeOutlines_fixed,...
     %     '--', 'color', [1,0,0], 'LineWidth', 0.5); 
-    plt.outlines(specs2_out.getAllenOutlines(),...
+    plt.outlines(specs2_out.getAllenOutlines(), [], [],...
         '--', 'color', [0,1,0], 'LineWidth', 0.5); 
     hold off
     drawnow;
