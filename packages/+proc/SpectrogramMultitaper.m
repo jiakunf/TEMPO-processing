@@ -26,6 +26,9 @@
 % imagesc(st);  set(gca,'ColorScale','log')
 %
 function [st,f,t] = SpectrogramMultitaper(x, w, varargin)
+    
+    if(length(w) > 1), window = w; w = length(w);
+    else, window = ones(w,1); end
 
     options = DefaultOptions(w);
     if nargin>=2
@@ -45,7 +48,7 @@ function [st,f,t] = SpectrogramMultitaper(x, w, varargin)
         xrange = (1+(i_t-1)*(w - options.overlap ) ):(w + (i_t-1)*(w - options.overlap ) );
         
         if(~any(isnan(x(xrange))))
-            [z,f] = pmtm(x(xrange), options.nw, w, ...
+            [z,f] = pmtm(x(xrange).*window, options.nw, w, ...
                     'DropLastTaper', options.DropLastTaper, options.fps);
 %             [z,f] = pmtm(x(xrange), 10, 'Tapers','sine',  w, options.fps); % in matlab 2020b one can do: 'Tapers','sine'
 
