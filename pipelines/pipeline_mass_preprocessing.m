@@ -1,9 +1,14 @@
 
-clear;
+clear; 
 close all;
+if(isempty(gcp('nocreate'))), parpool('Threads'); end 
+
+diary(fullfile("P:\GEVI_Wave\Logs", ...
+        strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
 
 recording_names =  ["Spontaneous\mv0105\20230815\meas0"+string(0:3)];
+%%
 
 skip_if_final_exists  = true;
 
@@ -17,7 +22,6 @@ basefolder_output = "P:\GEVI_Wave\Preprocessed\";
 shifts0 = [20,0]; % pix, between R and G channel due to cameras misalignment
 
 maxRAM = 0.1;
-% parpool('Threads');
 %%
 
 MEs = {};

@@ -1,5 +1,11 @@
     
-% parpool('Threads');
+% clear; 
+% close all;
+% if(isempty(gcp('nocreate'))), parpool('Threads'); end 
+% 
+% diary(fullfile( ...
+%         "P:\GEVI_Wave\Logs", ...
+%         strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
 
 % recording_name = "Spontaneous\mv0104\20230815\meas04";%"Spontaneous\mv0104\20230815\meas04" %(short 22s recording for tests);
@@ -36,9 +42,9 @@ fullpathGconv = fullfile(file1.folder, file1.name);
 fullpathRconv = fullfile(file2.folder, file2.name);
 
 [~, ~, ext1, basefilename1, channel1, ~] = filenameParts(fullpathGconv);
-fullpathGin = fullfile(folder_processing, file1.name);%basefilename1+channel1+"_preprocessed"+ext1);
+fullpathGin = fullfile(folder_processing, file1.name);
 [~, ~, ext2, basefilename2, channel2, ~] = filenameParts(fullpathRconv);
-fullpathRin = fullfile(folder_processing, file2.name);%basefilename2+channel2+"_preprocessed"+ext2);
+fullpathRin = fullfile(folder_processing, file2.name);
 %%
 
 [filedir, filename, fileext, basefilename, channel, ~] = filenameParts(fullpathRconv);
@@ -66,8 +72,8 @@ if(~strcmp(folder_converted, folder_processing))
 end
 %%
 
-% h5path1_p = movieExtractFrames(h5path1, [1500, 1800]*120, 'outdir', folder_processing);
-% h5path2_p = movieExtractFrames(h5path2, [1500, 1800]*120, 'outdir', folder_processing);
+% fullpathGin = movieExtractFrames(fullpathGin, [1, 69756], 'outdir', folder_processing);
+% fullpathRin = movieExtractFrames(fullpathRin, [1, 69756], 'outdir', folder_processing);
 %%
 
 [h5path1_mc, shiftsfile1] = movieSimpleMoco(fullpathGin, 'impute_nan', true);
@@ -97,10 +103,9 @@ movieMeanTraces([string(h5path1_mc), string(h5path2_reg)]);
 movieMakeMask(h5path1_mc); movieMakeMask(h5path2_reg);
 %%
 
-% if(~strcmp(h5path2_imp, h5path2_reg)) delete(h5path2_reg); end
 if(~strcmp(h5path2_mc, h5path2_reg)) delete(h5path2_mc); end
-if(~strcmp(fullpathGin,  fullpathGconv))     delete(fullpathGin); end
-if(~strcmp(fullpathRin,  fullpathRconv))     delete(fullpathRin); end
+if(~strcmp(fullpathGin,  fullpathGconv)) delete(fullpathGin); end
+if(~strcmp(fullpathRin,  fullpathRconv)) delete(fullpathRin); end
 %%
 
 if(~strcmp(folder_output, folder_processing))

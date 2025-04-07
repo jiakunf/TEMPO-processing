@@ -1,17 +1,21 @@
 
-clear;
+clear; 
 close all;
+if(isempty(gcp('nocreate'))), parpool('Threads'); end 
+
+diary(fullfile("P:\GEVI_Wave\Logs", ...
+        strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
 
-recording_names = ["Spontaneous\m0101\20230815\meas0"+string(0:2), ...
-                   "Spontaneous\m0104\20230815\meas0"+string(4:6), ...
-                   "Spontaneous\m0105\20230815\meas0"+string(0:3)];
+recording_names = ["Spontaneous\mDLRKlMORcre001\20240912\meas00", ...
+                   "Spontaneous\mRArchLKl001\20240912\meas00"];
 %     [rw.readlines("N:\GEVI_Wave\filelists\filelist_anesthesia_ace.txt")];
 
 channels = ["G","R"];
 
-basefolder_raw = "R:\GEVI_Wave\Raw\"; %"R:\GEVI_Wave\Raw\";% 
-basefolder_converted = "S:\GEVI_Wave\Preprocessed\";
+basefolder_raw = "\\Bfm\b\Hansol\Raw\"; %"R:\GEVI_Wave\Raw\";% 
+basefolder_converted = "\\Bfm\b\Hansol\Preprocessed\";
+
 
 binning = 8;
 maxRAM = 0.1;

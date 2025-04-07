@@ -1,29 +1,32 @@
 
-clear;
+clear; 
 close all;
+if(isempty(gcp('nocreate'))), parpool('Threads'); end 
+
+diary(fullfile("P:\GEVI_Wave\Logs", ...
+        strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
 
-files = dir("\\Bfm\b\Visual\mEndo*\**\meas*");
+files = dir("R:\GEVI_Wave\Raw\Visual\m88*\*\meas*");
 recording_names = arrayfun(@(f) string(fullfile(f.folder, f.name)), files);
-recording_names = erase(recording_names, "\\Bfm\b\");
+recording_names = erase(recording_names, "R:\GEVI_Wave\Raw\");
+
+% recording_names = ["Spontaneous\mDLRKlMORcre001\20240912\meas00", ...
+%                    "Spontaneous\mRArchLKl001\20240912\meas00"];
 %%
-% recording_names =  ["\Anesthesia\mv0105\20230831\meas"+arrayfun(@(k) string(num2str(k,'%02.f')), 0:30)];
-%     [rw.readlines("N:\GEVI_Wave\filelists\filelist_anesthesia_ace.txt")];
 
 channels = ["G","R"];
 
-basefolder_raw = "\\Bfm\b\Visual\"; %"R:\GEVI_Wave\Raw\";% "M:\Raw Data Files\Raw\"; %
+basefolder_raw =  "R:\GEVI_Wave\Raw\";% 
 basefolder_converted = "S:\GEVI_Wave\Preprocessed\";
 basefolder_processing = "T:\GEVI_Wave\Preprocessed\";
 basefolder_output = "P:\GEVI_Wave\Preprocessed\";
 
-binning = 4;
+binning = 8;
 maxRAM = 0.1;
 unaccounted_hardware_binning = 1; %For old recordings, hardware binning is not accounted for.
 
 shifts0 = [0,0];
-
-% parpool('Threads');
 %%
 
 MEs_conv = {};
@@ -40,8 +43,8 @@ for i_f = 1:length(recording_names)
 end
 %%
 
-postfix_in1 = "cG_bin4";
-postfix_in2 = "cR_bin4";
+postfix_in1 = "cG_bin8";
+postfix_in2 = "cR_bin8";
 
 skip_if_final_exists  = true;
 
