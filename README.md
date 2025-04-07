@@ -11,14 +11,22 @@ This pipeline was tested in MATLAB 2019b, 2021b, and 2023a.
 Add all folders (except _pipelines_) to MATLAB path. Add all **dependencies** to MATLAB path.
 
 ### Dependencies
+#### matlab toolboxes
+_dependencies_toolboxes.txt_
+availible from MathWorks
+
+#### external matlab libraries
+_dependencies_external.txt_
+availible from other developers through mathworks.com/matlabcentral or github.com
+
 #### internal matlab utils
-see _dependencies_utils.txt_
+_dependencies_utils.txt_
+availible upon request; will be publicly availible upon release
 
-#### external dependencies
-_Inpaint_nans\inpaint_nans.m <br/>
-NoRMCorre\dftregistration_min_max.m_
-
-For .dcimg to .h5 conversion, binary files _dcimgmex.mexw64_ / _dcimgmatlab.mexw64_, _dct_readtimestamps.exe_, and drives from Hamamatsu are required
+#### binary files
+_dependencies_binaries.txt_
+For .dcimg to .h5 conversion, binary files _dcimgmex.mexw64_ / _dcimgmatlab.mexw64_, _dct_readtimestamps.exe_, and sdk drives from Hamamatsu are required. Availible from Hamamatsu
+For fast filtering (td convolution), compiled _hdf5_movie_convolution.exe_ and open source linear algebra and fft libraries are required. Availible upon request 
 
 ## Getting Started
 
