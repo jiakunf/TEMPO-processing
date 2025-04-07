@@ -7,3 +7,5 @@ C:\Users\Vasily\repos\matlab_utils\copyStruct.m
 C:\Users\Vasily\repos\matlab_utils\functionCallStruct.m
 C:\Users\Vasily\repos\matlab_utils\getOptions.m
 C:\Users\Vasily\repos\matlab_utils\mergeStructs.m
+C:\Users\Vasily\repos\matlab_utils\findpeaksspectral.m
+C:\Users\Vasily\repos\matlab_utils\formchunks.m
