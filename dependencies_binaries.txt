@@ -1,0 +1,12 @@
+analysis\allen\allenmap.mat
+utilities\dcimg\dcimgmex.mexw64
+utilities\dcimg\dcimgmatlab.mexw64
+utilities\dcimg\dct_readtimestamps\dct_readtimestamps.exe
+analysis\c_codes\compiled\hdf5_movie_convolution.exe
+analysis\c_codes\compiled\libblas.dll
+analysis\c_codes\compiled\libfftw3-3.dll
+analysis\c_codes\compiled\libfftw3f-3.dll
+analysis\c_codes\compiled\libgcc_s_seh_64-1.dll
+analysis\c_codes\compiled\libgfortran_64-3.dll
+analysis\c_codes\compiled\liblapack.dll
+analysis\c_codes\compiled\libquadmath_64-0.dll
