@@ -8,11 +8,8 @@ diary(fullfile("P:\GEVI_Wave\Logs", ...
         strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
 
-basefolder_search = "R:\GEVI_Wave\Raw\";
-files = dir(fullfile(basefolder_search, "Visual\m88*\*\meas*"));
-recording_names = arrayfun(@(f) string(fullfile(f.folder, f.name)), files);
-recording_names = erase(recording_names, basefolder_search);
-
+recording_names = ...
+    pathspattern("R:\GEVI_Wave\Raw\", "Visual\m88*\*\meas*", true)';
 % recording_names = ["Spontaneous\mDLRKlMORcre001\20240912\meas00", ...
 %                    "Spontaneous\mRArchLKl001\20240912\meas00"];
 %%
