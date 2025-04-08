@@ -11,15 +11,16 @@ diary(fullfile("P:\GEVI_Wave\Logs", ...
 recording_names =  ["Spontaneous\mv0105\20230815\meas0"+string(0:3)];
 %%
 
+basefolder_converted = "S:\GEVI_Wave\Preprocessed\";
+basefolder_processing = "T:\GEVI_Wave\Preprocessed\";
+basefolder_output = "P:\GEVI_Wave\Preprocessed\";
+%%
+
 skip_if_final_exists  = true;
 
 postfix_in1 = "cG_bin8";
 postfix_in2 = "cR_bin8";
     
-basefolder_converted = "S:\GEVI_Wave\Preprocessed\";
-basefolder_processing = "T:\GEVI_Wave\Preprocessed\";
-basefolder_output = "P:\GEVI_Wave\Preprocessed\";
-
 shifts0 = [20,0]; % pix, between R and G channel due to cameras misalignment
 
 maxRAM = 0.1;

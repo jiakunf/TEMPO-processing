@@ -11,12 +11,12 @@ diary(fullfile("P:\GEVI_Wave\Logs", ...
 recording_names = ["Spontaneous\mDLRKlMORcre001\20240912\meas00", ...
                    "Spontaneous\mRArchLKl001\20240912\meas00"];
 %     [rw.readlines("N:\GEVI_Wave\filelists\filelist_anesthesia_ace.txt")];
-
-channels = ["G","R"];
+%%
 
 basefolder_raw = "\\Bfm\b\Hansol\Raw\"; %"R:\GEVI_Wave\Raw\";% 
 basefolder_converted = "\\Bfm\b\Hansol\Preprocessed\";
 
+channels = ["G","R"];
 
 binning = 8;
 maxRAM = 0.1;

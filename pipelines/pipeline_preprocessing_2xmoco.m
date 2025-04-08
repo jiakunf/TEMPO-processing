@@ -19,7 +19,6 @@
 % 
 % shifts0 = [0,0]; %[20,0]; % pix, between R and G channel due to cameras misalignment
 %
-% maxRAM = 0.1;
 % skip_if_final_exists = true;
 %%
 
