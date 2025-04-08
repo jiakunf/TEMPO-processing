@@ -63,7 +63,7 @@ function [fullpath_out, fullpathWxy_out, fullpathWsm_out]  = ...
     disp("movieEstimateHemoGFiltTR: loading ref and performing spatial averaging")
 
     if( options.naverage > 1 )
-        if(all (sz(1:2) < options.naverage))
+        if(all(sz(1:2) < options.naverage))
             Mr_sm = reshape(repelem(mr, prod(sz(1:2))), sz);
         else
             Mr_sm = rw.h5readMovie(fullpath_ref); 
@@ -77,10 +77,11 @@ function [fullpath_out, fullpathWxy_out, fullpathWsm_out]  = ...
         Mr_sm = rw.h5readMovie(fullpath_ref);
     end
     %%
+
     options_estimate_nolim = copyStruct(options_limit);
     options_estimate_nolim.max_delay = Inf; options_estimate_nolim.max_amp_rel = Inf;
-    
     %%
+    
     w0 = 0; Mr_filt0 = 0;
     if(options.mean_to_mean)
         w0 = estimateFiltersTimeResolved(...

@@ -10,8 +10,8 @@ function Wxy = ...
     Mg = reshape(Mg, [nx*ny, size(Mg,3)]);
     Mr = reshape(Mr, [nx*ny, size(Mr,3)]);
 
-    for i_s = 1:(nx*ny)
-%     parfor i_s = 1:(nx*ny)
+%     for i_s = 1:(nx*ny)
+    parfor i_s = 1:(nx*ny)
         
         mg_raw = Mg(i_s, :);
         mr_raw = Mr(i_s, :);
