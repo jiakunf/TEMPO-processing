@@ -1,13 +1,14 @@
  
 % clear; 
 % close all;
+% warning on;
 % if(isempty(gcp('nocreate'))), parpool('Threads'); end 
 % 
 % diary(fullfile( ...
 %           "P:\GEVI_Wave\Logs", ...
 %           strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
-
+% 
 % recording_name = "Anesthesia\mv0105\20230831\meas03";
 % postfix_in1 = "cG_bin8_mc";
 % postfix_in2 = "cR_bin8_mc_reg";
