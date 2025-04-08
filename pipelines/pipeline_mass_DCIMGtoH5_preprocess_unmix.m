@@ -8,13 +8,10 @@ diary(fullfile("P:\GEVI_Wave\Logs", ...
         strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
 
-basefolder_search = "R:\GEVI_Wave\Raw\"; 
-
-files = dir(fullfile(basefolder_search, "\Spontaneous\mv0106\20250320\meas*")); %dir(basefolder_raw + "Visual\m40\20210824\meas00\");m**
-recording_names = arrayfun(@(f) string(fullfile(f.folder, f.name)), files);
-recording_names = erase(recording_names, basefolder_search);
-
-% recording_names = ...[rw.readlines("N:\GEVI_Wave\filelists\filelist_michelle_unprocessed20240715.txt")]; 
+recording_names = ...
+    pathspattern("R:\GEVI_Wave\Raw\", "\Spontaneous\mv0106\20250320\meas*", true)';
+% recording_names = ...
+%     rw.readlines("N:\GEVI_Wave\filelists\filelist_michelle_unprocessed20240715.txt"); 
 %%
 
 basefolder_raw = "R:\GEVI_Wave\Raw\"; %"\\VoltageRaw\DCIMG\GEVI_Wave\Raw\"; %"R:\GEVI_Wave\Raw\";% "M:\Raw Data Files\Raw\"; %%
