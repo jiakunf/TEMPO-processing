@@ -22,9 +22,8 @@ basefolder_output = "N:\GEVI_Wave\Analysis\";
 
 skip_if_final_exists = false;
 
-shifts0 = [0,0]; %[20,0]; % pix, between R and G channel due to cameras misalignment
-
 mouse_state = "transition";% "awake"; %"anesthesia" "transition"
+
 crosstalk_matrix =  [[1, 0]; [0.07, 1]]; %[[1, 0]; [0.095, 1]]; %
 % crosstalk_matrix =  [[1, 0]; [0.07, 1]]; %[[1, 0]; [0.095, 1]]; %
 % for newer ASAP3 but 0.07 seems to work much better; 
