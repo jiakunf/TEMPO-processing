@@ -1,6 +1,7 @@
 
 clear; 
 close all;
+warning on;
 if(isempty(gcp('nocreate'))), parpool('Threads'); end 
 
 diary(fullfile("P:\GEVI_Wave\Logs", ...

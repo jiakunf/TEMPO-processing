@@ -1,13 +1,14 @@
     
 % clear; 
 % close all;
+% warning on;
 % if(isempty(gcp('nocreate'))), parpool('Threads'); end 
 % 
 % diary(fullfile( ...
 %         "P:\GEVI_Wave\Logs", ...
 %         strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
-
+% 
 % recording_name = "Spontaneous\mv0104\20230815\meas04";%"Spontaneous\mv0104\20230815\meas04" %(short 22s recording for tests);
 % postfix_in1 = "cG_bin8";
 % postfix_in2 = "cR_bin8";

@@ -1,11 +1,13 @@
 
 % clear; 
 % close all;
+% warning on;
 % if(isempty(gcp('nocreate'))), parpool('Threads'); end 
 % 
 % diary(fullfile("P:\GEVI_Wave\Logs", ...
 %         strcat(string(datetime('now','Format','yyyyMMddHHmmss')),'_',mfilename(),'.log')));
 %%
+%
 % recording_name = "Spontaneous\mCtrl12\20201122\meas01";
 % 
 % channels = ["G","R"];
